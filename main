@@ -1,0 +1,80 @@
+ 
+ //Assignment 1 Question 3  
+ //Calculate the average and the standard 
+ //deviation of a list of numbers from a file. 
+ #include <iostream> 
+ #include <fstream> 
+ #include <cstdlib> 
+ #include <cmath> 
+ using namespace std; 
+
+ void calcAvg(ifstream& in_stream, double& average, int& count); 
+ //Calculates the average of a list of numbers from a file.  
+
+ void stdDeviation(ifstream& in_stream, double& stdDev, double average,int count); 
+ //Calculates the standard deviation of a list of numbers from a file. 
+
+int main() 
+ { 
+
+ifstream fin; 
+double avg = 0, stdDev = 0; 
+int nrOfNrs; 
+
+//Open the input file. 
+cout << "Opening the input file..." << endl; 
+fin.open("Nrs.dat"); 
+if (!fin) 
+{ 
+cout << "Error accessing input file." << endl; 
+exit(1); 
+} 
+
+//Calculate the average of the numbers in the file. 
+calcAvg(fin, avg, nrOfNrs); 
+//Reset to the beginning of the file. 
+fin.close(); 
+fin.open("Nrs.dat"); 
+if (!fin) 
+{ 
+cout << "Error accessing input file." << endl; 
+exit(1); 
+} 
+
+//Calculate the standard deviation of the numbers in the file. 
+stdDeviation(fin, stdDev, avg, nrOfNrs); 
+//Close the file. 
+fin.close(); 
+//Output the average and standard deviation. 
+cout.setf(ios::fixed); 
+cout.setf(ios::showpoint); 
+cout.precision(2); 
+cout << "The average of the numbers in the file is "<< avg << "." << endl 
+<< "The standard deviation of the numbers in the file is " << stdDev  
+<< "." << endl; 
+return 0; 
+}
+
+ void calcAvg(ifstream& in_stream, double& average, int &count) 
+{ 
+ double total = 0, next; 
+ count = 0; 
+ while(in_stream >> next) 
+{ 
+ total += next; 
+ count++; 
+} 
+ average = total/count; 
+}
+
+ void stdDeviation(ifstream& in_stream, double& sDev, double average, int count) 
+ { 
+
+double total = 0, next = 0, avg_std = 0; 
+while (in_stream >> next) 
+{ 
+ total += pow((next - average), 2); 
+}
+ avg_std = total/count; 
+ sDev = sqrt(avg_std); 
+ }
